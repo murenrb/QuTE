@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Footprint editor</title>
+  <link rel="stylesheet" href="vendor/leaflet.css">
+  <style>
+    /* docs/gui.md: greyscale structure, square corners, Arial-like font */
+    html, body { margin: 0; padding: 0; background: #fff;
+      font-family: Arial, "Helvetica Neue", Helvetica, "Liberation Sans", sans-serif; }
+    #map { width: 100%; box-sizing: border-box; }
+    /* Same outline as the other tabs' map (app/components/style.py MAP_OUTLINE_CSS);
+       colour set from Python via --map-outline. */
+    .leaflet-container::after { content: ""; position: absolute; inset: 0;
+      border: 1px solid var(--map-outline, #000000); pointer-events: none; z-index: 1000; }
+    .leaflet-bar, .leaflet-bar a, .leaflet-control { border-radius: 0 !important; }
+    .fp-handle { background: #fff; border: 2px solid #1a1a1a; box-sizing: border-box; cursor: grab; }
+    .fp-handle.ew { cursor: ew-resize; } .fp-handle.ns { cursor: ns-resize; }
+    .fp-knob { background: #fff; border: 2px solid #1a1a1a; box-sizing: border-box;
+      transform: rotate(45deg); cursor: crosshair; }
+    .fp-readout { font-size: 11px; color: #1a1a1a; background: rgba(255,255,255,0.9);
+      border: 1px solid #c8c8c8; padding: 1px 4px; white-space: nowrap;
+      transform: translate(-50%, -50%); display: inline-block; pointer-events: none; }
+    .fp-body { cursor: move; }
+    .map-select { cursor: pointer; }
+    /* Object labels: outline colour, 10 px, at each object's upper-left corner */
+    .map-label { font-family: Arial, Helvetica, sans-serif; white-space: nowrap;
+      text-shadow: 0 0 2px #fff, 0 0 2px #fff, 0 0 2px #fff; transform: translate(3px, 2px);
+      pointer-events: none; }
+  </style>
+</head>
+<body>
+  <div id="map"></div>
+  <script src="vendor/leaflet.js"></script>
+  <script src="geometry.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

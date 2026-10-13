@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Streamlit secrets (API keys) — use Streamlit Cloud secrets in deployment
+.streamlit/secrets.toml
+
+# Runtime data
+data/cache/
+
+# OS / editor
+.DS_Store
+.idea/workspace.xml
+~$*.docx
+data/projects/
+
+# plotly.js copied from the plotly package at runtime (app/components/results_chart.py)
+static/plotly-*.js
+
+# Local database (no DATABASE_URL set): core/persistence/store.py
+data/*.sqlite
+data/*.sqlite-journal
+.idea/

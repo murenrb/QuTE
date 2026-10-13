@@ -1,0 +1,14 @@
+{
+  "schema_version": 2,
+  "cooling_type": "dry",
+  "t_supply_c": 40.0,
+  "t_return_c": 50.0,
+  "rack_density_kw": 100.0,
+  "white_space_ratio": 0.65,
+  "redundancy_x": 2,
+  "redundancy_y": 1,
+  "ups_area_sqft_per_kw": 1.0,
+  "generator_area_sqft_per_kw": 1.5,
+  "switchgear_area_sqft_per_kw": 0.5,
+  "name": "Dry · 40→50 °C · 100 kW/rack · 65% WS · 2N+1 · UPS/Gen/SWG 1/1.5/0.5 sqft/kW"
+}

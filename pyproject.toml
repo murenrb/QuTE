@@ -1,0 +1,59 @@
+[project]
+name = "data-center-system"
+version = "0.1.0"
+description = "Systems engineering for data centers co-located with other technologies"
+readme = "CLAUDE.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.13"
+dependencies = [
+    "certifi>=2026.7.22",
+    "folium>=0.20.0",
+    "geopy>=2.5.0",
+    "nrel-pysam>=7.1.1",
+    "numpy>=2.5.3",
+    "pandas>=3.0.6",
+    "plotly>=7.1.0",
+    "psychrolib>=2.5.0",
+    "psycopg[binary]>=3.3.6",
+    "pydantic>=2.13.5",
+    "pyproj>=3.8.0",
+    "requests>=2.34.2",
+    "shapely>=2.1.2",
+    "sqlalchemy>=2.1.4",
+    "streamlit>=1.64.0",
+    "streamlit-folium>=0.27.4",
+    "xyzservices>=2025.4.0",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py313"
+extend-exclude = [".venv"]
+
+[tool.ruff.format]
+exclude = ["*.md"]
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "NPY", "PD"]
+
+[tool.mypy]
+python_version = "3.13"
+strict = true
+ignore_missing_imports = true
+packages = ["core", "services"]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+addopts = "-m 'not live'"
+markers = ["live: hits external APIs (opt-in: pytest -m live)"]
+
+[dependency-groups]
+dev = [
+    "mypy>=2.3.1",
+    "pandas-stubs>=3.0.5.260914",
+    "pytest>=9.1.1",
+    "ruff>=0.16.9",
+    "types-requests>=2.33.0.20260906",
+]
