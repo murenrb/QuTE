@@ -1009,3 +1009,8 @@ THENs now *route* flows between modules (docs/control.md, docs/solver.md).
   Rebound Technologies.
 - The repo moved to `github.com/murenrb/QuTE` (owner's account
   tied to the Rebound email; D-006's old address redirects).
+
+## D-071 — App name: QuTE
+- The app's shown name (browser tab, start screen title) is **QuTE**, matching
+  the repo `murenrb/QuTE` (owner). The Python package name
+  (`data-center-system`) and folder are unchanged.

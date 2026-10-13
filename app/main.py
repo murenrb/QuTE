@@ -11,9 +11,7 @@ PAGES_DIR = Path(__file__).parent / "pages"
 
 
 def run() -> None:
-    st.set_page_config(
-        page_title="Data Center System", layout="wide", initial_sidebar_state="collapsed"
-    )
+    st.set_page_config(page_title="QuTE", layout="wide", initial_sidebar_state="collapsed")
     inject_css()
     nav = st.navigation(
         [

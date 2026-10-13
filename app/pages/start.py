@@ -24,7 +24,7 @@ def _label(e: ProjectEntry) -> str:
     return f"{e.name}  ·  {state.local_time(e.updated_at):%Y-%m-%d %H:%M}  ·  {e.stem}"
 
 
-st.markdown("### Data Center System")
+st.markdown("### QuTE")
 st.caption("Systems engineering for co-located data centers")
 st.caption(
     "All projects are public: anyone using this app can open and change any project. "

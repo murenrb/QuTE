@@ -1,4 +1,4 @@
-# Data Center System — Claude Instructions
+# QuTE (Data Center System) — Claude Instructions
 
 Streamlit app for **systems engineering of data centers co-located with other
 technologies** (greenhouses, wastewater treatment, district heating, food

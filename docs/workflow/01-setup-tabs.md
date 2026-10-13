@@ -9,7 +9,7 @@ Everything below happens on **one workspace page**: a tabbed inputs panel
 the output layer: the module output (left) and the three-row results figure
 (right) in one figure, metrics under them (D-024, D-025, D-029, D-032, D-055). Tabs, in order: **Location · Property · Data center · Utility · Modules**. The user can switch tabs at any time without losing input.
 
-## 0. Start screen (separate page)
+## 0. Start screen (separate page, titled **QuTE**, D-071)
 - **Open project** — pick any saved project (all projects are public, D-069;
   listed newest first as name · last saved · id), or upload a project JSON
   → restore state, open the workspace on the saved tab; results re-compute
