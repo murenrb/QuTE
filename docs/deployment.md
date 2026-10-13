@@ -18,7 +18,7 @@ Each project also has its own link, `…/workspace?project=<id>` (project bar �
 | Piece | What | Where it is set |
 |---|---|---|
 | App | this repo, `streamlit_app.py`, branch `main` | share.streamlit.io |
-| Python | 3.13 | Community Cloud → app → Advanced settings (chosen at deploy) |
+| Python | 3.13 exactly: PySAM has no 3.14 wheels; the version can't be changed later (delete and redeploy) | Community Cloud → app → Advanced settings (chosen at deploy) |
 | Packages | `uv.lock` / `requirements.txt` (`uv export …`, CLAUDE.md) | the repo |
 | Database | hosted Postgres (Neon free tier recommended) | `DATABASE_URL` secret |
 | Weather | NSRDB key + email | `NSRDB_API_KEY`, `NSRDB_EMAIL` secrets |
