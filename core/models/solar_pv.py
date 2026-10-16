@@ -14,7 +14,7 @@ import numpy.typing as npt
 import pandas as pd
 import PySAM.Pvwattsv8 as pvwatts
 
-from core.config.defaults import PV_INPUTS
+from core.config.defaults import PV_INPUTS, SQFT_TO_M2
 from core.domain.control import (
     ControlSetting,
     ControlSpec,
@@ -84,9 +84,11 @@ def resolve_orientation(p: SolarPVParams, site_lat: float | None) -> SolarPVPara
     )
 
 
-def pv_capacity_kw(p: SolarPVParams) -> float:
-    """DC nameplate [kW] = snapped area [sqft] × power density [W/sqft] / 1000 (D-036)."""
-    return area_sqft(p.area) * p.power_density_w_sqft / W_PER_KW
+def pv_capacity_kw(p: SolarPVParams, roof_m2: float = 0.0) -> float:
+    """DC nameplate [kW] = (snapped area + data center roof if covered) [sqft]
+    × power density [W/sqft] / 1000 (D-036, D-073). roof_m2: data center block area."""
+    sqft = area_sqft(p.area) + (roof_m2 / SQFT_TO_M2 if p.cover_data_center else 0.0)
+    return sqft * p.power_density_w_sqft / W_PER_KW
 
 
 @dataclass(frozen=True)
@@ -167,6 +169,7 @@ class SolarPV:
     params: SolarPVParams
     site: PvSite
     site_lat: float | None = None  # map location; default tilt/azimuth follow it
+    roof_m2: float = 0.0  # data center block area (used when cover_data_center)
     name: str = "solar_pv"
     requires: tuple[str, ...] = (
         col.GHI_W_M2,
@@ -191,7 +194,7 @@ class SolarPV:
             df[col.WIND_M_S].to_numpy(dtype=float),
             self.site,
             params,
-            pv_capacity_kw(params),
+            pv_capacity_kw(params, self.roof_m2),
         )
         return df.assign(**{col.PV_AVAILABLE_KW: ac_kw})
 

@@ -228,7 +228,7 @@ def test_block_follows_input_area_keeping_position() -> None:
     assert after.center == before.center
 
 
-def test_block_over_drawn_area_cuts_it_back_permanently() -> None:
+def test_block_over_drawn_area_cuts_it_back_and_holes_heal() -> None:
     project = _project_with_block()
     pv_area = (poly((10, 10), (60, 10), (60, 60), (10, 60)),)  # 2,500 m², clear of the DC
     p = project.model_copy(
@@ -245,9 +245,68 @@ def test_block_over_drawn_area_cuts_it_back_permanently() -> None:
     pv = cut.modules.solar_pv.area
     assert area_m2(pv) == pytest.approx(2500 - ice.area_m2, rel=1e-6)
     assert overlap_m2(pv, [b.polygon for b in blocks(cut)]) == pytest.approx(0, abs=1e-6)
-    # Moving the block away again does not regrow the area (borders were overwritten).
+    # Moving the block away again heals the hole it left (D-074).
     away = normalize_layout(set_block_footprint(cut, "ice_storage", ice))
-    assert area_m2(away.modules.solar_pv.area) == pytest.approx(area_m2(pv))
+    assert area_m2(away.modules.solar_pv.area) == pytest.approx(2500, rel=1e-6)
+    assert not any(q.holes for q in away.modules.solar_pv.area)
+    assert normalize_layout(away) == away  # idempotent
+
+
+def test_notch_on_the_outer_edge_is_not_regrown() -> None:
+    project = _project_with_block()
+    pv_area = (poly((10, 10), (60, 10), (60, 60), (10, 60)),)
+    p = normalize_layout(
+        _with_ice(
+            project.model_copy(
+                update={
+                    "modules": ModuleSettings(solar_pv=SolarPVParams(enabled=True, area=pv_area))
+                }
+            )
+        )
+    )
+    ice = p.modules.ice_storage.footprint
+    edge = F.to_latlon([(10, 35)])[0]  # straddling the area's west edge
+    moved = set_block_footprint(
+        p, "ice_storage", ice.model_copy(update={"center_lat": edge[0], "center_lon": edge[1]})
+    )
+    cut = normalize_layout(moved)
+    notched = area_m2(cut.modules.solar_pv.area)
+    assert notched < 2500 - 1
+    away = normalize_layout(set_block_footprint(cut, "ice_storage", ice))
+    assert area_m2(away.modules.solar_pv.area) == pytest.approx(notched)
+
+
+def test_hole_around_the_data_center_heals_where_it_moved_out() -> None:
+    from core.geometry.footprint import square_footprint
+
+    project = _project_with_block()  # 20 × 20 m block centred at (100, 50)
+    drawn = ring((50, 20), (150, 20), (150, 80), (50, 80))
+    p = normalize_layout(place_module_area(project, "solar_pv", drawn))
+    assert len(p.modules.solar_pv.area[0].holes) == 1
+    # Shift the block 10 m east: half of the old hole is free again.
+    shifted = F.to_latlon([(110, 50)])[0]
+    dc = p.facilities[0].model_copy(update={"footprint": square_footprint(shifted, 400.0)})
+    half = normalize_layout(p.model_copy(update={"facilities": (dc,)}))
+    area = half.modules.solar_pv.area
+    assert area_m2(area) == pytest.approx(100 * 60 - 400, rel=1e-6)  # block still cut out
+    assert overlap_m2(area, facility_polygons(half)) < SITE_AREAS.overlap_tolerance_m2
+    # Fully out of the area: no hole left.
+    gone = F.to_latlon([(180, 50)])[0]
+    dc = p.facilities[0].model_copy(update={"footprint": square_footprint(gone, 400.0)})
+    out = normalize_layout(p.model_copy(update={"facilities": (dc,)}))
+    assert area_m2(out.modules.solar_pv.area) == pytest.approx(100 * 60, rel=1e-6)
+
+
+def test_hole_around_another_area_heals_when_it_is_cleared() -> None:
+    project = _project_with_block()
+    p = project.model_copy(update={"modules": project.modules.with_enabled("greenhouse", True)})
+    p = place_module_area(p, "greenhouse", ring((20, 20), (40, 20), (40, 40), (20, 40)))
+    p = normalize_layout(
+        place_module_area(p, "solar_pv", ring((10, 10), (60, 10), (60, 60), (10, 60)))
+    )
+    assert area_m2(p.modules.solar_pv.area) == pytest.approx(2500 - 400, rel=1e-6)
+    healed = normalize_layout(clear_module_area(p, "greenhouse"))
+    assert area_m2(healed.modules.solar_pv.area) == pytest.approx(2500, rel=1e-6)
 
 
 def test_overlapping_blocks_flagged_both_ways() -> None:

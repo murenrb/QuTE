@@ -142,7 +142,7 @@ The whole workflow happens on **one page** (D-025). Only the Start screen
     reshape; on release the new outline snaps by the same rules as a new
     drawing (inside the boundary, outside every block and other areas). The
     area grows/shrinks freely (not area-locked).
-  - **Scaled in inputs** (Ice storage, Power generation, Hot water storage,
+  - **Scaled in inputs** (Ice storage, Waste heat to power, Hot water storage,
     Brine separation): a **block** like the data center —
     area set by the module's inputs, appears automatically beside the data
     center when enabled; drag to move, edge handles reshape with the area
@@ -154,8 +154,9 @@ The whole workflow happens on **one page** (D-025). Only the Start screen
     W, NE, NW, SE, SW about its midpoint; corners are rebuilt where the edge
     lines meet, then the area snaps to the free land as usual (D-042).
   - A block (data center or module) placed over a drawn area **cuts that area
-    back** automatically (permanently — moving the block away doesn't regrow
-    it). A block overlapping **another block** or leaving the boundary turns
+    back** automatically. A notch cut into the area's outer edge stays when
+    the block moves away, but a **hole** (an area drawn around a block or
+    another area) **heals** wherever nothing covers it any more (D-074). A block overlapping **another block** or leaving the boundary turns
     **red** (live while dragging, and on every tab) with a warning — never
     blocked.
 - **Object labels (D-042):** every object on the map — Property, Data center,
@@ -252,7 +253,7 @@ The whole workflow happens on **one page** (D-025). Only the Start screen
   hour table. Click a swatch (outlined when active) to pick the brush; click
   or drag over cells, or click a month/hour heading, to paint. Each action is
   one event; Python applies it and re-renders.
-- Swatch colours: viridis, dark purple (cheapest) → bright yellow (dearest)
+- Swatch colours: bright blue (cheapest) → purple → bright red (dearest)
   by energy × 100 + demand. Swatches sit half a swatch width (17 px) in from
   the left so the selection outline is never clipped.
 - "Weekend energy prices" radio below: Follow schedule / Off peak.

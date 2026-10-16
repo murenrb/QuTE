@@ -64,7 +64,7 @@ MODULES: tuple[ModuleUI, ...] = (
     ),
     ModuleUI(
         key="power_generation",
-        label="Power generation",
+        label="Waste heat to power",
         color=SERIES_6,
         render_inputs=power_generation.render_inputs,
         outputs=power_generation.OUTPUTS,

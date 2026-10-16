@@ -64,10 +64,10 @@ def output_metrics(df: pd.DataFrame, weather: WeatherMeta) -> list[Metric]:
     if col.POWER_GEN_KW in df.columns:  # generation is stored negative
         gen = -df[col.POWER_GEN_KW]
         module_metrics.append(
-            Metric("Annual power generation", f"{float(gen.sum()) / KW_PER_MW:,.0f} MWh/yr")
+            Metric("Annual waste heat to power", f"{float(gen.sum()) / KW_PER_MW:,.0f} MWh/yr")
         )
         run_h = int((gen > 0).sum())
-        module_metrics.append(Metric("Power generation hours", f"{run_h:,} h"))
+        module_metrics.append(Metric("Waste heat to power hours", f"{run_h:,} h"))
     return [
         Metric("Annual IT energy", mwh(col.IT_LOAD_KW)),
         Metric("Annual cooling electricity", mwh(col.COOLING_ELEC_KW)),

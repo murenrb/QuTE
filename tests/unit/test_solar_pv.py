@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from core.config.defaults import PSYCHRO, PvArrayType
+from core.config.defaults import PSYCHRO, SQFT_TO_M2, PvArrayType
 from core.control.catalog import controller
 from core.control.engine import Controller
 from core.domain.control import Action, ControlSettings, ControlState
@@ -131,6 +131,18 @@ def test_capacity_from_area_and_density() -> None:
         800, rel=1e-6
     )
     assert pv_capacity_kw(SolarPVParams()) == 0
+
+
+def test_cover_data_center_adds_the_roof() -> None:
+    """D-073: the data center block area × the same density, only when toggled
+    on — and PV still needs a drawn area to run."""
+    roof_m2 = 50_000 * SQFT_TO_M2
+    p = SolarPVParams(enabled=True, area=(square_area(100_000),))
+    assert pv_capacity_kw(p, roof_m2) == pytest.approx(650, rel=1e-6)  # toggle off
+    covered = p.model_copy(update={"cover_data_center": True})
+    assert pv_capacity_kw(covered, roof_m2) == pytest.approx(150_000 * 6.5 / 1000, rel=1e-6)
+    roof_only = SolarPVParams(enabled=True, cover_data_center=True)
+    assert module_subsystems(ModuleSettings(solar_pv=roof_only), None, None, roof_m2) == []
 
 
 def test_adapter_writes_negative_generation(phoenix: WeatherData) -> None:

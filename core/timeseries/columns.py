@@ -166,7 +166,7 @@ COOLING_FREE_KWTH = register(
 # side (coolant or ice mixer, so already in the stack); the power is the stack's
 # "converted to power" band.
 POWER_GEN_REJECT_KWTH = register(
-    ColumnSpec("power_gen_reject_kwth", "kW_th", "Heat rejected from power generation")
+    ColumnSpec("power_gen_reject_kwth", "kW_th", "Heat rejected from waste heat to power")
 ).name
 POWER_GEN_POWER_KWTH = register(
     ColumnSpec(
@@ -180,7 +180,7 @@ POWER_GEN_POWER_KWTH = register(
     )
 ).name
 POWER_GEN_HEAT_IN_KWTH = register(
-    ColumnSpec("power_gen_heat_in_kwth", "kW_th", "Heat into power generation")
+    ColumnSpec("power_gen_heat_in_kwth", "kW_th", "Heat into waste heat to power")
 ).name
 POWER_GEN_EFF = register(ColumnSpec("power_gen_eff", "-", "Power cycle efficiency")).name
 HWS_CHARGE_KWTH = register(
@@ -302,7 +302,7 @@ ICE_MAKER_ELEC_KW = register(
 ).name
 POWER_GEN_KW = register(
     ColumnSpec(
-        "power_gen_kw", "kW", "Power generation", PlotGroup.ELECTRICAL, True, 6, color=SERIES_6
+        "power_gen_kw", "kW", "Waste heat to power", PlotGroup.ELECTRICAL, True, 6, color=SERIES_6
     )
 ).name
 COOLING_ELEC_KW = register(

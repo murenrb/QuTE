@@ -100,7 +100,7 @@ only; Data center = facility block only; the view is locked outside Location.
 - Map locked, display only.
 - Tariff painter: rate categories (defaults Off peak $0.10/kWh + $10/kW,
   Shoulder $0.15 + $10, Peak $0.20 + $10; add/rename/reprice/delete), each
-  with a viridis swatch; paint them onto the month × hour table (default all
+  with a blue → purple → red swatch; paint them onto the month × hour table (default all
   off peak). "Weekend energy prices": Follow schedule / Off peak.
 - Feeds hourly energy price, energy cost and the monthly demand charge —
   [../models/utility.md](../models/utility.md).
@@ -135,7 +135,9 @@ only; Data center = facility block only; the view is locked outside Location.
 - **Solar PV** (built): note "Use the polygon tool to draw the area dedicated
   to solar…"; once drawn: corner handles on the map, **"Snap edges to
   N/S/E/W"** and "Clear area and redraw"; **power density slider 5–9 W/sqft (0.25 steps, default 6.5)**;
-  DC capacity = area × density (shown); array type, module type, tilt
+  **"Cover the data center"** checkbox (default off: adds the data center
+  block's roof at the same density, D-073); DC capacity = (area + roof) ×
+  density (shown); array type, module type, tilt
   (defaults to the site latitude; "Use site latitude" resets a typed tilt),
   azimuth (defaults to facing the equator for the site's hemisphere; "Face the
   equator" resets a typed azimuth); Advanced: losses, DC/AC ratio, inverter efficiency, ground coverage
@@ -150,7 +152,7 @@ only; Data center = facility block only; the view is locked outside Location.
   block placement controls (width, length, rotation, "Place beside data
   center", "Align to property edge"); performance curves in an expander. Step 1 control: always cleared to make ice; nothing uses ice yet,
   so the ice tank fills from the water tank and waits (D-049) — [../models/ice-storage.md](../models/ice-storage.md).
-- **Power generation** (built, **scaled in inputs**): **rated power — slider 0.5–150 % of the IT load,
+- **Waste heat to power** (internal key `power_generation`; built, **scaled in inputs**): **rated power — slider 0.5–150 % of the IT load,
   default 2 %**, with the MWe it gives in grey right under it (D-063); **% of Carnot slider 10–50, default 30**; **max cold-side
   temperature slider 0 → free-cooling cutoff, default 10 °C**; **power
   density slider 1,000–3,000 sqft/MWe, default 2,000** → footprint; block

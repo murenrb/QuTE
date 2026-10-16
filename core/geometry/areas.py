@@ -86,6 +86,32 @@ def subtract(
     return _from_shape(frame, shape.difference(blocked), s.min_piece_m2)
 
 
+def heal_holes(
+    area: Sequence[AreaPolygon], obstacles: Sequence[AreaPolygon], s: SiteAreaSettings
+) -> Area:
+    """Fill the parts of the area's holes no obstacle covers any more (D-074).
+
+    A hole is where the area was snapped around a block or another area; when
+    that object moves away (or shrinks, or is removed) the freed land rejoins
+    the area. Notches cut into the outer edge are not regrown. Slivers narrower
+    than 2 × `heal_sliver_m` (rounding along an obstacle's edge) are ignored, so
+    an area with nothing to heal comes back unchanged.
+    """
+    if not area or not any(p.holes for p in area):
+        return tuple(area)
+    frame = LocalFrame(area[0].exterior[0])
+    shape = unary_union([_to_shape(frame, p) for p in area])
+    filled = unary_union([Polygon(frame.to_xy(p.exterior)) for p in area])
+    freed = filled.difference(shape)
+    if obstacles:
+        freed = freed.difference(unary_union([_to_shape(frame, o) for o in obstacles]))
+    r = s.heal_sliver_m
+    freed = freed.buffer(-r, join_style="mitre").buffer(r, join_style="mitre")
+    if freed.is_empty or freed.area < s.min_piece_m2:
+        return tuple(area)
+    return _from_shape(frame, shape.union(freed.intersection(filled)), s.min_piece_m2)
+
+
 def square_up_rings(
     area: Sequence[AreaPolygon],
     boundary: Ring,

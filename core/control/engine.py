@@ -268,9 +268,9 @@ def module_warnings(plan: Plan, mixer_on_brine: bool = False) -> list[str]:
     out = []
     if plan.runs("power_generation"):
         if not plan.to("power_generation", Commodity.HEAT):
-            out.append("Power generation has no heat source.")
+            out.append("Waste heat to power has no heat source.")
         if not plan.to("power_generation", Commodity.COOLING):
-            out.append("Power generation has no cooling (cold side).")
+            out.append("Waste heat to power has no cooling (cold side).")
     if plan.runs("ice_mixer"):
         if not plan.to("ice_mixer", Commodity.ICE):
             out.append("The ice mixer gets no ice (ice storage: 'Sends ice to').")

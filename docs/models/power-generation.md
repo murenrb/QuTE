@@ -1,11 +1,14 @@
-# Power Generation Module (transcritical CO2)
+# Waste Heat To Power Module (transcritical CO2)
+
+Shown in the app as **Waste heat to power** (D-075); the code, saved files and
+columns keep the key `power_generation` / `power_gen_*`.
 
 Code: `core/models/power_generation.py`: layer 1 `power_generation`
 (vectorized, one source) and `cycle_hour` (one hour, several sources), helpers
 `carnot_efficiency`, `design_heat_kwth`; layer 2 `PowerGeneration`, a solver
 node ([../solver.md](../solver.md)). Inputs:
 `PowerGenerationParams` (`core/domain/modules.py`), defaults
-`PowerGenerationInputs` in `defaults.py`. UI: Modules tab → Add module → Power generation. **Scaled in inputs** (D-041): a block on
+`PowerGenerationInputs` in `defaults.py`. UI: Modules tab → Add module → Waste heat to power. **Scaled in inputs** (D-041): a block on
 the map with area = rated MWe × power density. Decisions D-045, D-054.
 
 ## What it runs on (the state's THENs, D-054)

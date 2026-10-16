@@ -41,7 +41,7 @@ _RUN = CONTROL.power_gen_run_pct
 # State machine IFs / THENs (docs/control.md, owner's write-up).
 CONTROL_SPEC = ControlSpec(
     KEY,
-    "Power generation",
+    "Waste heat to power",
     ifs=(),
     thens=(
         ControlSetting(
@@ -70,7 +70,7 @@ CONTROL_SPEC = ControlSpec(
             receives=True,
             ends=(COOLANT, ICE_MIXER),
         ),
-        off_setting("Power generation"),
+        off_setting("Waste heat to power"),
     ),
 )
 

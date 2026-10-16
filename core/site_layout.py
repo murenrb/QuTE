@@ -18,6 +18,7 @@ from core.domain.modules import ModuleContext
 from core.domain.site import AreaPolygon, Footprint, LatLon, Ring
 from core.geometry.areas import (
     footprint_polygon,
+    heal_holes,
     outside_m2,
     overlap_m2,
     snap_rings,
@@ -205,6 +206,7 @@ def normalize_layout(project: Project, s: SiteAreaSettings = SITE_AREAS) -> Proj
     1. Enabled blocks get a footprint (placed beside the data center) and follow
        their input-defined area (shape and position kept).
     2. Drawn areas lose whatever any block now covers.
+    3. Holes in drawn areas heal where nothing covers them any more (D-074).
     """
     p = project
     for key, block in p.modules.blocks().items():
@@ -228,6 +230,11 @@ def normalize_layout(project: Project, s: SiteAreaSettings = SITE_AREAS) -> Proj
             p = p.model_copy(
                 update={"modules": p.modules.with_area(key, subtract(drawn.area, block_polys, s))}
             )
+    for key, drawn in p.modules.sited().items():
+        if drawn.placed and any(poly.holes for poly in drawn.area):
+            healed = heal_holes(drawn.area, obstacles_for(p, key), s)
+            if healed != drawn.area:
+                p = p.model_copy(update={"modules": p.modules.with_area(key, healed)})
     return p
 
 

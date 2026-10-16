@@ -24,7 +24,7 @@ Read the linked doc **before** working in its area.
 | [docs/models/datacenter-hourly.md](docs/models/datacenter-hourly.md) | Hourly cooling / COP / electrical model |
 | [docs/models/solar-pv.md](docs/models/solar-pv.md) | Solar PV module (PVWatts V8 via PySAM) |
 | [docs/models/ice-storage.md](docs/models/ice-storage.md) | Ice storage module (one-hour step, ice + water tanks, mass-flow interface) |
-| [docs/models/power-generation.md](docs/models/power-generation.md) | CO2 power generation module (free-cooling hand-off, 1:1 heat→power) |
+| [docs/models/power-generation.md](docs/models/power-generation.md) | Waste heat to power (CO2 power generation; free-cooling hand-off, 1:1 heat→power) |
 | [docs/models/hot-water-storage.md](docs/models/hot-water-storage.md) | Hot water storage (two tank / thermocline, mech. demand chain) |
 | [docs/models/brine-separation.md](docs/models/brine-separation.md) | Brine separation (evaporator, front of the heat stack, floating coolant) |
 | [docs/models/ice-mixer.md](docs/models/ice-mixer.md) | Ice mixer (ice into water/brine, two-pass calls, salt balance) |

@@ -53,6 +53,7 @@ through config (never inlined).
 | `dc_ac_ratio` | 0.5–2.0 / 1.2 | — |
 | `gcr` | 0.01–0.99 / 0.4 | — |
 | `inv_eff_pct` | 90–99.5 / 96 | % |
+| `cover_data_center` | off (adds the data center block area at the same density, D-073) | — |
 
 PVWatts web defaults; size from the drawn area. Snapped area pieces smaller
 than `min_piece_m2` = 1 m² are dropped as slivers (`SiteAreaSettings`);
@@ -60,7 +61,8 @@ overlaps under 0.01 m² are rounding; a new block is placed 5 m beside the data
 center (`block_gap_m`). "Snap edges to N/S/E/W": 45° steps
 (`compass_step_deg`); an edge is fixed if both ends and its midpoint are within
 0.5 m of the boundary, a block or another area (`edge_contact_tol_m`); a corner
-that would move more than 3× its edges stays put. See [models/solar-pv.md](models/solar-pv.md).
+that would move more than 3× its edges stays put. Hole healing (D-074) ignores
+freed slivers narrower than 0.5 m (`heal_sliver_m` = 0.25 m opening radius). See [models/solar-pv.md](models/solar-pv.md).
 
 ## Ice storage module
 

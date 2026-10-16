@@ -142,6 +142,8 @@ class SolarPVParams(SitedModuleParams):
     dc_ac_ratio: float = _field(_PV.dc_ac_ratio, "DC nameplate / AC inverter rating")
     gcr: float = _field(_PV.gcr, "Ground coverage ratio (row spacing; trackers/backtracking)")
     inv_eff_pct: float = _field(_PV.inv_eff_pct, "Inverter efficiency at rated power, %")
+    # Panels on the data center roof too: adds its block area (D-073).
+    cover_data_center: bool = _PV.cover_data_center
 
 
 _ICE = ICE_INPUTS

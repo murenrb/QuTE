@@ -650,7 +650,7 @@ def render(project: Project) -> None:
             key=P + "all_on",
             on_click=_run_everything,
             help="Every module on, wired as before the state machine: brine separation "
-            "first on the data center's heat, then power generation (supply coolant as "
+            "first on the data center's heat, then waste heat to power (supply coolant as "
             "its cold side) and hot water storage; the ice mixer cools the data center "
             "with ice from ice storage; recovered water goes to ice storage; PV generates.",
         )

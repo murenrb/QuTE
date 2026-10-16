@@ -114,6 +114,8 @@ class SolarPVInputs:
     inv_eff_pct: SliderSpec = SliderSpec(90, 99.5, 96, 0.5, "%")
     array_type: PvArrayType = PvArrayType.FIXED_OPEN_RACK
     module_type: PvModuleType = PvModuleType.STANDARD
+    # Also cover the data center roof: its block area × the same density (D-073).
+    cover_data_center: bool = False
 
 
 @dataclass(frozen=True)
@@ -428,6 +430,9 @@ class SiteAreaSettings:
     compass_step_deg: float = 45.0
     edge_contact_tol_m: float = 0.5
     max_vertex_shift_factor: float = 3.0  # skip a corner that would move > 3× its edges
+    # Hole healing (D-074): freed land in a hole narrower than 2 × this is a
+    # rounding sliver, not healed.
+    heal_sliver_m: float = 0.25
 
 
 @dataclass(frozen=True)

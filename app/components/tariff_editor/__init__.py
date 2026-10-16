@@ -17,34 +17,32 @@ from core.domain.utility import UtilityTariff
 FRONTEND = Path(__file__).parent / "frontend"
 _component = components.declare_component("tariff_editor", path=str(FRONTEND))
 
-# Viridis (dark purple → bright yellow), 9 evenly spaced stops.
-VIRIDIS = (
-    "#440154", "#472d7b", "#3b528b", "#2c728e", "#21918c",
-    "#28ae80", "#5ec962", "#addc30", "#fde725",
-)  # fmt: skip
+# Rate scale (D-072): bright blue (cheapest) → purple → bright red (dearest),
+# 5 evenly spaced stops. A hue sweep keeps neighbouring rates distinct.
+RATE_SCALE = ("#0050ff", "#5a32e6", "#9b1fc8", "#d81c78", "#ff1a1a")
 
 
 def _hex_to_rgb(h: str) -> tuple[int, int, int]:
     return int(h[1:3], 16), int(h[3:5], 16), int(h[5:7], 16)
 
 
-def viridis(t: float) -> str:
-    """Colour at position t ∈ [0, 1] on the viridis scale (linear between stops)."""
-    t = min(max(t, 0.0), 1.0) * (len(VIRIDIS) - 1)
-    i = min(int(t), len(VIRIDIS) - 2)
+def rate_color(t: float) -> str:
+    """Colour at position t ∈ [0, 1] on the rate scale (linear between stops)."""
+    t = min(max(t, 0.0), 1.0) * (len(RATE_SCALE) - 1)
+    i = min(int(t), len(RATE_SCALE) - 2)
     f = t - i
-    a, b = _hex_to_rgb(VIRIDIS[i]), _hex_to_rgb(VIRIDIS[i + 1])
+    a, b = _hex_to_rgb(RATE_SCALE[i]), _hex_to_rgb(RATE_SCALE[i + 1])
     r, g, bl = (round(a[k] + (b[k] - a[k]) * f) for k in range(3))
     return f"#{r:02x}{g:02x}{bl:02x}"
 
 
 def category_colors(tariff: UtilityTariff) -> dict[str, str]:
     """Each category's swatch: its total value (energy × 100 + demand) placed
-    linearly between the cheapest (dark purple) and the dearest (bright yellow)."""
+    linearly between the cheapest (bright blue) and the dearest (bright red)."""
     values = {c.id: c.total_value for c in tariff.categories}
     lo, hi = min(values.values()), max(values.values())
     span = hi - lo
-    return {cid: viridis((v - lo) / span if span > 0 else 0.0) for cid, v in values.items()}
+    return {cid: rate_color((v - lo) / span if span > 0 else 0.0) for cid, v in values.items()}
 
 
 def tariff_editor(tariff: UtilityTariff, *, key: str) -> dict[str, Any] | None:

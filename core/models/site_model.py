@@ -93,6 +93,7 @@ def module_subsystems(
     modules: ModuleSettings,
     weather: WeatherMeta | None,
     site_lat: float | None = None,
+    dc_roof_m2: float = 0.0,
 ) -> list[Subsystem]:
     """Module parts that need only weather (run before the solver). Add new
     modules here and / or in `coupled_nodes` (architecture.md → Writing a module)."""
@@ -100,7 +101,7 @@ def module_subsystems(
     if modules.solar_pv.placed:
         if weather is None:
             raise ValueError("Solar PV needs the weather site (lat/lon/time zone)")
-        subs.append(SolarPV(modules.solar_pv, PvSite.from_weather(weather), site_lat))
+        subs.append(SolarPV(modules.solar_pv, PvSite.from_weather(weather), site_lat, dc_roof_m2))
     if modules.greenhouse.placed:
         subs.append(GreenhouseLoad(modules.greenhouse))
     return subs
@@ -122,7 +123,8 @@ def site_subsystems(
         CoolantTemperature(dc.dc_type, assumptions),
         UtilityPrice(tariff),  # known up front, so the state machine can test it
     ]
-    subs += module_subsystems(modules, weather, site_lat)
+    roof_m2 = dc.footprint.area_m2 if dc.footprint is not None else 0.0
+    subs += module_subsystems(modules, weather, site_lat, roof_m2)
     # The state machine picks each hour's state; the solver steps the data
     # center and the modules under it (D-052, D-053, D-054).
     ctx = _context(dc.it_load_peak_mw, site_lat, dc, assumptions)

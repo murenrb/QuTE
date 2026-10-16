@@ -78,7 +78,7 @@ def dc_type_form() -> SaveOutcome | None:
             "run. Left handle = minimum: with free cooling the supply floats down with "
             "the weather, at heat-rejection ambient (dry bulb, or wet bulb for "
             "evaporative) + the free-cooling approach, but never below this minimum. "
-            "Modules that reject heat into the cooling loop (power generation, brine "
+            "Modules that reject heat into the cooling loop (waste heat to power, brine "
             "separation) see this floating temperature.",
         )
         t_return = _slider("Return (warm) water from IT", i.t_return_c, "dct_t_return")

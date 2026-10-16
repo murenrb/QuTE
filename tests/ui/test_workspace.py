@@ -625,7 +625,7 @@ def test_power_generation_toggle_updates_results(isolated_data: Path) -> None:
     frame = at.session_state["results"].frame
     assert frame["power_gen_kw"].min() < 0  # generation is negative
     labels = [m.label for m in at.metric]
-    assert "Annual power generation" in labels
+    assert "Annual waste heat to power" in labels
     assert at.slider(key="w_pgen_rated_pct_of_it").value == pytest.approx(2)
     assert at.slider(key="w_pgen_rated_pct_of_it").max == pytest.approx(150)
     assert "= 0.20 MWe" in _texts(at)  # 2 % × 10 MW, in grey under the slider

@@ -110,7 +110,7 @@ table's title. Statistics are over the year.
 |---|---|---|
 | Solar PV | power production (MW) | energy produced (MWh/yr) |
 | Ice storage | state of charge of the ice tank (blue) and the water tank (orange) (%), one panel | median and max ice made per day (t/day; ice made = ice maker duty / 330 kJ/kg); ice making rate while on, production-weighted Σq² / Σq (TR); ice maker electricity (MWh/yr) |
-| Power generation | power out and heat in (MW / MW_th); cycle efficiency (%) | power generated (MWh/yr); hours running |
+| Waste heat to power | power out and heat in (MW / MW_th); cycle efficiency (%) | power generated (MWh/yr); hours running |
 | Hot water storage | state of charge (%); hot and cold tank temperatures (°C) | heat stored, heat delivered (MWh_th/yr) |
 | Brine separation | brine tank state of charge (`brine_soc_frac`, %); concentration (wt%) | min and max concentration (wt%); water produced (gal/yr) |
 | Ice mixer | cooling delivered (MW_th); mixed temperature (°C) | median and min cooling temperature (°C), over the hours it cools |
@@ -140,8 +140,8 @@ proposed additions):
 | Water recovered from brine (if on) | Σ `brine_water_out_kg_h` × 0.264172 (`GAL_PER_KG_WATER`) | gal/yr |
 | Final brine concentration (if on) | last `brine_conc_wt_pct` | wt% |
 | Heat into hot water storage (if on) | Σ `hws_charge_kwth` / 1000 | MWh_th/yr |
-| Annual power generation (if on) | −Σ `power_gen_kw` / 1000 | MWh/yr |
-| Power generation hours (if on) | count(`power_gen_kw` < 0) | h |
+| Annual waste heat to power (if on) | −Σ `power_gen_kw` / 1000 | MWh/yr |
+| Waste heat to power hours (if on) | count(`power_gen_kw` < 0) | h |
 | Weather source | NSRDB dataset + cell lat/lon + UTC offset | — |
 
 ## Future

@@ -3,20 +3,20 @@
 import pytest
 
 from app.components.tabs.utility import apply_event
-from app.components.tariff_editor import VIRIDIS, category_colors, viridis
+from app.components.tariff_editor import RATE_SCALE, category_colors, rate_color
 from core.domain.utility import UtilityTariff
 
 
-def test_colors_run_purple_to_yellow_by_total_value() -> None:
+def test_colors_run_blue_to_red_by_total_value() -> None:
     colors = category_colors(UtilityTariff())  # totals 20, 25, 30
-    assert colors["offpeak"] == VIRIDIS[0]  # cheapest: dark purple
-    assert colors["peak"] == VIRIDIS[-1]  # dearest: bright yellow
-    assert colors["shoulder"] == viridis(0.5) == VIRIDIS[4]  # linear position
+    assert colors["offpeak"] == RATE_SCALE[0]  # cheapest: bright blue
+    assert colors["peak"] == RATE_SCALE[-1]  # dearest: bright red
+    assert colors["shoulder"] == rate_color(0.5) == RATE_SCALE[2]  # linear position
 
 
 def test_single_category_color() -> None:
     t = UtilityTariff().without_category("peak").without_category("shoulder")
-    assert category_colors(t) == {"offpeak": VIRIDIS[0]}
+    assert category_colors(t) == {"offpeak": RATE_SCALE[0]}
 
 
 def test_actions() -> None:

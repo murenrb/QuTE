@@ -1014,3 +1014,28 @@ THENs now *route* flows between modules (docs/control.md, docs/solver.md).
 - The app's shown name (browser tab, start screen title) is **QuTE**, matching
   the repo `murenrb/QuTE` (owner). The Python package name
   (`data-center-system`) and folder are unchanged.
+
+## D-072 — Tariff swatch colours: blue → purple → red  (2026-10-14)
+- Viridis made neighbouring rates hard to tell apart (owner). Swatches now run
+  bright blue (cheapest) → purple → bright red (dearest), still placed
+  linearly by energy × 100 + demand. Supersedes the colour part of D-043.
+
+## D-073 — Solar PV can cover the data center roof  (2026-10-14)
+- New PV checkbox **"Cover the data center"** (default off). When on, the data
+  center block's area is added to the drawn area at the same W/sqft density,
+  with the same PVWatts inputs (one array). PV still needs a drawn ground area
+  to run (owner). Shown on the map as a dashed PV outline on the block.
+
+## D-074 — Holes in drawn areas heal
+- An area drawn around a block or another area has a hole there. When that
+  object moves away, shrinks or is removed (or its module is taken off the
+  site), the freed part of the hole rejoins the area on the next layout pass
+  (`normalize_layout` → `heal_holes`) (owner). Notches cut into the outer edge
+  still don't regrow. Freed slivers under 0.5 m wide are ignored. Supersedes
+  the "permanently" part of D-041 for holes only.
+
+## D-075 — "Power generation" shown as "Waste heat to power"
+- Display name only (module list, control tab, plots, metrics, messages)
+  (owner). Internal key `power_generation`, params class and `power_gen_*`
+  columns are unchanged, so saved projects load as before.
+

@@ -12,8 +12,8 @@ UI: Utility tab (between Data center and Modules) — the tariff painter
   or deleted (at least one stays; a deleted rate's cells go to the cheapest
   remaining rate).
 - **Ranking / colour**: total value = energy × 100 + demand. Each swatch sits
-  linearly between the cheapest (dark purple) and the dearest (bright yellow)
-  on the viridis scale. "Cheapest" = lowest total value.
+  linearly between the cheapest (bright blue) and the dearest (bright red)
+  through purple (D-072). "Cheapest" = lowest total value.
 - **Schedule**: 12 × 24 table, month of year × hour of day, each cell a rate
   category. Default: all off peak. Paint by clicking a swatch, then clicking or
   dragging over cells (or a month / hour heading for a whole row / column).

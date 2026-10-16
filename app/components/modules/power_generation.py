@@ -1,4 +1,4 @@
-"""Power generation inputs (docs/models/power-generation.md, D-045).
+"""Waste heat to power inputs (docs/models/power-generation.md, D-045).
 
 Scaled in inputs (D-041): its block on the map has area = rated MWe × power
 density, and is dragged / resized / rotated like the data center block.
@@ -139,7 +139,7 @@ def render_inputs(project: Project) -> None:
             reposition=_reposition,
         )
     elif project.site.location is None:
-        st.caption("Set the project location to place the power generation block.")
+        st.caption("Set the project location to place the waste heat to power block.")
     st.caption(
         "Runs whenever free cooling is available, taking the data center's heat before "
         "the dry coolers / towers do (fewer free-cooling hours)."
@@ -160,7 +160,7 @@ def _text(df: pd.DataFrame) -> list[Metric]:
 OUTPUTS = ModuleOutputs(
     panels=(
         Panel(
-            "Power generation",
+            "Waste heat to power",
             "MW / MW_th",
             (
                 Trace(col.POWER_GEN_KW, "Power out", SERIES_6, -MW_PER_KW),

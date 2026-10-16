@@ -137,8 +137,15 @@ def render_inputs(project: Project) -> None:
         on_change=_changed,
         help="DC kW per square foot of land. DC size = area × density.",
     )
+    st.checkbox(
+        "Cover the data center",
+        key=P + "cover_data_center",
+        on_change=_changed,
+        help="Panels on the data center roof too: its block area × the same density "
+        "is added to the drawn area.",
+    )
     if pv.placed:
-        st.metric("DC capacity", f"{pv_capacity_kw(pv):,.0f} kW")
+        st.metric("DC capacity", f"{pv_capacity_kw(pv, dc_roof_m2(project)):,.0f} kW")
     c1, c2 = st.columns(2)
     with c1:
         st.selectbox(
@@ -197,6 +204,12 @@ def render_inputs(project: Project) -> None:
                 "Row spacing for PVWatts shading/backtracking (independent of density)",
             )
     st.caption("PVWatts V8 (NREL), run on this site's weather — hour-aligned with the model.")
+
+
+def dc_roof_m2(project: Project) -> float:
+    """Data center block area, the roof PV can cover (D-073)."""
+    fp = project.facilities[0].footprint if project.facilities else None
+    return fp.area_m2 if fp is not None else 0.0
 
 
 # --- module output (02-results.md → Module output) --------------------------------

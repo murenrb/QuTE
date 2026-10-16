@@ -80,7 +80,7 @@ and explain why in the summary — never delete/skip to get green.
 - Module map categories (D-041): categories discovered from params types; ice
   footprint = tank/density; block placed beside the data center, idempotent
   layout rules, resized with inputs (position kept); block over a drawn area
-  cuts it back (permanently); block–block overlap and outside-boundary flagged
+  cuts it back (notches stay, holes heal when it moves out, D-074); block–block overlap and outside-boundary flagged
   both ways; drawn areas snap around module blocks; vertex edits obey the
   snapping rules; editor routing per tab/module; block colors; browser
   convex-overlap check agrees with shapely (Node).
@@ -96,7 +96,7 @@ and explain why in the summary — never delete/skip to get green.
   validation, painting/deleting, hourly mapping by month/hour, weekend off
   peak, monthly peak-only demand (ties, negatives), 10 MW hand calculation,
   time-varying demand charge picks max charge × load, export credit, swatch
-  colours (viridis by total value), painter actions, UI flow.
+  colours (blue → purple → red by total value), painter actions, UI flow.
 - Saving (D-040): regression — a new session landing on the workspace reopens
   the latest autosave and a click doesn't blank it; no autosave → Start; new
   projects get separate files; opened autosaves keep their file; save/restore a

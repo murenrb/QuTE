@@ -300,6 +300,12 @@ def build_overlay(project: Project, mode: MapMode) -> folium.FeatureGroup:
         folium.Marker(
             upper_left(corners), icon=map_label(owner_label(project, b.owner), color)
         ).add_to(fg)
+        pv = project.modules.solar_pv
+        if b.owner == DATA_CENTER and pv.placed and pv.cover_data_center:
+            pv_color = MODULE_COLORS.get("solar_pv", BOUNDARY_COLOR)
+            folium.Polygon(  # PV on the roof (D-073): dashed PV outline inside the block
+                corners, color=pv_color, weight=2, dash_array="6 4", fill=False
+            ).add_to(fg)
     return fg
 
 

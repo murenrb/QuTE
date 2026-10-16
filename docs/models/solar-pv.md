@@ -11,6 +11,12 @@ free land (inside the property, outside the block and other areas).
 ```
 DC capacity [kW] = snapped area [sqft] × power density [W/sqft] / 1000
 ```
+**Cover the data center** (checkbox, default off, D-073): adds the data
+center block's area (its roof) at the same density and with the same PVWatts
+inputs — `DC capacity = (snapped area + block area) × density / 1000`. PV
+still runs only once a ground area is drawn. On the map the block gets a
+dashed outline in the PV colour.
+
 Power density: slider 5–9 W/sqft, 0.25 steps, **default 6.5 W/sqft** of land.
 PVWatts has no land-density input — its "array area" is module area from
 module efficiency (standard ≈ 19 % → ≈ 17.7 W/sqft of panel); land density
@@ -38,7 +44,8 @@ lat/lon, elevation and UTC offset (`PvSite.from_weather`).
 |---|---|---|---|
 | `area` | none (draw on map) | snapped polygons | — |
 | `power_density_w_sqft` | 6.5 | 5–9, step 0.25 | W/sqft of land |
-| → system_capacity [system_capacity] | area × density | derived | kW DC |
+| `cover_data_center` | off | on / off | — (adds the data center block area) |
+| → system_capacity [system_capacity] | (area + roof if covered) × density | derived | kW DC |
 | `array_type` [array_type] | fixed open rack (0) | 0 fixed open rack, 1 fixed roof, 2 1-axis, 3 1-axis backtracking, 4 2-axis | — |
 | `module_type` [module_type] | standard (0) | 0 standard, 1 premium, 2 thin film | — |
 | `tilt_deg` [tilt] | **= site latitude** (|lat| from the map; 20 only if no location) | 0–90 | ° |
